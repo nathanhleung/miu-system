@@ -22,6 +22,7 @@
       ).toEqual([M,U,U,I,U,U,I]);
     });
     
+    /* disable this limitation for interactive
     it('should throw a RangeError when the array is larger than 50 characters', () => {
       const arr = [];
       for (let i = 0; i < 51; i++) {
@@ -31,6 +32,7 @@
         rule2(arr);
       }).toThrow(RangeError);
     });
+    */
     
     it('should throw a TypeError when the first letter is not M', () => {
       expect(() => {

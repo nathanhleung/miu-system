@@ -45,7 +45,7 @@ window.MIU = (() => {
   
   function rule2(state) {
     if (state.length > 50) {
-      throw new RangeError('State cannot be bigger than 50 characters')
+      // throw new RangeError('State cannot be bigger than 50 characters')
     }
   	if (state[0] === M) {
     	const rest = [];

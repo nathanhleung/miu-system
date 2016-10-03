@@ -1,0 +1,43 @@
+body {
+  background: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Catamaran';
+}
+
+.app {
+  padding-bottom: 48px;
+}
+
+.currentString {
+  font-size: 3rem;
+  margin: 30px;
+}
+
+.currentString span {
+  background: white;
+  padding: 15px 25px;
+  font-family: monospace;
+  color: red;
+}
+
+.button {
+  margin: 15px;
+  height: 50px;
+  padding: 15px;
+  line-height: 20px;
+  color: white;
+  background: skyblue;
+  box-shadow: 0px 3px 0px blue;
+  border: none;
+  text-transform: uppercase;
+}
+
+.button:hover {
+  position: relative;
+  top: 2px;
+  box-shadow: 0px 1px 0px blue;
+}
+

@@ -1,80 +1,72 @@
 (() => {
+  // MIU import
   const { M, I, U, rule1, rule2, rule3, rule4 } = MIU;
+  const rules = [rule1, rule2, rule3, rule4];
+  
   const START = [M,I];
   const END = [M,U];
   
-  function rule0(state) {
-    return state;
-  }
-  const rules = [rule0, rule1, rule2, rule3, rule4];
-  
-  function success(state, target) {
-    if (state.length !== target.length) {
-      return false;
-    }
-    for (let i = 0; i < state.length; i++) {
-      if (state[i] !== target[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-  
-  /*
-  function getState(initial, steps) {
-    let result = initial;
-    for (let i = 0; i < steps.length; i++) {
-      result = rules[steps[i].rule](result);
-    }
-    return result;
-  }
-  */
-  
-  function applyRule(steps, rule) {
-    const lastStep = steps[steps.length - 1];
-    console.log(lastStep);
-    if (steps.length > 1000) {
-      return 'done';
-    }
-    if (rule === 0) {
-      throw new RangeError('Rule 0 will give you an infinite loop!');
-    }
-    const lastState = steps[steps.length - 1].state;
-    let nextState;
-    try {
-      nextState = rules[rule](lastState);
-      return applyRule([
-        ...steps, {
+  const state = {
+    string: [...START],
+    steps: [],
+    setState(key, value) {
+      state[key] = value;
+      render();
+    },
+  };
+  const RuleButton = (rule) => {
+    const button = document.createElement('button');
+    button.onclick = () => {
+      state.setState('string', rules[rule](state.string));
+      state.setState('steps', [
+        ...state.steps, {
           rule,
-          state: nextState
+          string: state.string,
         }
-      ], rule);
-    } catch (e) {
-      nextState = rules[rule + 1](lastState);
-      return applyRule([
-        ...steps, {
-          rule: rule + 1,
-          state: nextState,
-        }
-      ], rule);
-    }
+      ])
+    };
+    const text = document.createTextNode(`Rule ${rule + 1}`);
+    button.appendChild(text);
+    button.className = 'button';
+    return button;
   }
-  
-  function solve(state, steps = []) {
-    if (steps.length === 0) {
-      steps.push({
-        rule: 0,
-        state,
-      });
-    }
-    const result1 = applyRule(steps, 1);
-    const lastState = result1[result1.length - 1].state;
-    if (success(lastState, END)) {
-      return result1;
-    }
+  const CurrentString = (state) => {
+    const div = document.createElement('div');
+    const text = document.createElement('span');
+    text.innerHTML = state.string.join('');
+    div.appendChild(text);
+    div.className = 'currentString';
+    return div;
   }
-  
-  const result = solve(START);
-  console.log(result);
+  const CurrentSteps = (state) => {
+    const div = document.createElement('div');
+    for (let i = 0; i < state.steps.length; i++) {
+      const stepEl = document.createElement('div');
+      const step = state.steps[i];
+      stepEl.innerHTML = `
+        Step ${i + 1}: Rule ${step.rule + 1} => ${step.string.join('')}
+      `;
+      div.appendChild(stepEl);
+      div.className = 'step';
+    }
+    div.className = 'steps';
+    return div;
+  }
+  const App = () => {
+    const app = document.createElement('div');
+    app.appendChild(CurrentString(state));
+    for (let i = 0; i < rules.length; i++) {
+      app.appendChild(RuleButton(i));
+    }
+    app.appendChild(CurrentSteps(state));
+    app.className = 'app';
+    return app;
+  };
+  function render() {
+    const root = document.getElementById('root');
+    root.innerHTML = '';
+    root.appendChild(App());
+  }
+  render();
 })();
 
