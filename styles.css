@@ -11,6 +11,11 @@ body {
   padding-bottom: 48px;
 }
 
+.rulesBlock {
+  list-style-type: none;
+  padding: 0;
+}
+
 .currentString {
   font-size: 3rem;
   margin: 30px;

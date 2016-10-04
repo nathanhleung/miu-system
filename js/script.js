@@ -14,6 +14,22 @@
       render();
     },
   };
+  const RulesBlock = () => {
+    const ol = document.createElement('ol');
+    const rulesText = [
+      'Rule 1: If your string ends with I, you can add a U',
+      'Rule 2: Double the remaining letters after M (e.g. MIU -> MIUIU',
+      'Rule 3: Replace III with U (in progress)',
+      'Rule 4: Remove UU (in progress)',
+    ];
+    for (let i = 0; i < rulesText.length; i++) {
+      const li = document.createElement('li');
+      li.innerHTML = rulesText[i];
+      ol.appendChild(li);
+    }
+    ol.className = 'rulesBlock';
+    return ol;
+  }
   const RuleButton = (rule) => {
     const button = document.createElement('button');
     button.onclick = () => {
@@ -54,6 +70,7 @@
   }
   const App = () => {
     const app = document.createElement('div');
+    app.appendChild(RulesBlock());
     app.appendChild(CurrentString(state));
     for (let i = 0; i < rules.length; i++) {
       app.appendChild(RuleButton(i));
